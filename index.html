@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RawrXD ScreenPilot — Local-First Command Surface</title>
+    <style>
+        :root {
+            --bg: #09090b;
+            --surface: #121214;
+            --border: #27272a;
+            --text: #f4f4f5;
+            --muted: #71717a;
+            --accent: #38bdf8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.25rem; }
+        header { border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 2.5rem; }
+        .badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.625rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            font-family: ui-monospace, monospace;
+            letter-spacing: 0.04em;
+        }
+        .logo { font-size: 0.95rem; font-weight: 600; color: var(--muted); margin-bottom: 0.75rem; }
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+        .lead { color: var(--muted); font-size: 1.05rem; max-width: 640px; margin-bottom: 0.5rem; }
+        .sub { color: var(--muted); font-size: 0.9rem; max-width: 640px; }
+        h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+        @media (min-width: 600px) { .grid.two { grid-template-columns: 1fr 1fr; } }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+        .card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+        .card p, .card li { font-size: 0.875rem; color: var(--muted); }
+        .card ul { margin: 0.75rem 0 0; padding-left: 1.25rem; }
+        .card li { margin-bottom: 0.4rem; }
+        .card code {
+            font-family: ui-monospace, monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+        }
+        .tier-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+        }
+        .price { font-family: ui-monospace, monospace; color: var(--accent); font-size: 0.95rem; }
+        .preview {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+        .preview-bar {
+            background: #18181b;
+            border-bottom: 1px solid var(--border);
+            padding: 0.5rem 0.75rem;
+            font-family: ui-monospace, monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+        .preview-body {
+            padding: 1rem 1.25rem;
+            font-family: ui-monospace, monospace;
+            font-size: 0.8rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        .preview-body .ok { color: #4ade80; }
+        .preview-body .dim { color: #52525b; }
+        footer {
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            font-size: 0.75rem;
+            color: var(--muted);
+            font-family: ui-monospace, monospace;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+        }
+        .withheld { color: #a1a1aa; font-style: normal; }
+        .launch { margin-bottom: 2.5rem; }
+        .launch a {
+            display: inline-block;
+            margin: 0.25rem 0.5rem 0.25rem 0;
+            padding: 0.5rem 0.875rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            color: var(--text);
+            background: var(--surface);
+        }
+        .launch a.primary { border-color: var(--accent); color: var(--accent); }
+        .launch a:hover { border-color: var(--accent); }
+        .launch-note { font-size: 0.8rem; color: var(--muted); margin-top: 0.75rem; max-width: 640px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">RawrXD ScreenPilot</div>
+            <span class="badge">DESKTOP PREVIEW</span>
+            <h1>Your machine. Your models. Your agents. Any screen.</h1>
+            <p class="lead">The local-first command surface for steering coding agents across your workspaces.</p>
+            <p class="sub">Desktop Preview now — not a finished remote-control or cloud IDE release.</p>
+            <div class="launch">
+                <a class="primary" href="/gui/ide_chatbot_standalone.html">Open web agent shell</a>
+                <a href="/">Landing page</a>
+                <p class="launch-note"><strong>Use this URL:</strong> <a href="/gui/ide_chatbot_standalone.html">screenpilot.tech/gui/ide_chatbot_standalone.html</a><br>
+                Do <em>not</em> append <code>:11435/gui</code> to that path — that is only for a local IDE at <code>http://127.0.0.1:11435/gui</code> on your PC.<br>
+                GitHub Static Hosting: push this folder to your connected repo; leave Rewrite URL <strong>empty</strong> (or <code>/index.html</code> for SPA 404s only — not a Windows path).</p>
+            </div>
+        </header>
+
+        <main>
+            <h2>What ships in Desktop Preview</h2>
+            <div class="grid two">
+                <div class="card">
+                    <h3>Command-home UI</h3>
+                    <p>Workspace and Git context, agent transcript, composer, activity strip, and Stop control.</p>
+                </div>
+                <div class="card">
+                    <h3>Local Deep2 / GGUF</h3>
+                    <p>In-process inference lane. Scan and load weights from local roots such as <code>F:\OllamaModels</code>.</p>
+                </div>
+                <div class="card">
+                    <h3>Model hub</h3>
+                    <p>Browse and load local <code>.gguf</code> / <code>.bin</code> files. No cloud weight fetch, no <code>ollama pull</code> in this path.</p>
+                </div>
+                <div class="card">
+                    <h3>Approval boundaries</h3>
+                    <p>Fail-closed control channel. LocalServer auto-start suppressed in Command mode.</p>
+                </div>
+            </div>
+
+            <h2>Coming next</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Remote steering</h3>
+                    <p>Phone and web control via paired-device service — TLS, pairing, scoped tokens. Not a public model port on your PC.</p>
+                </div>
+            </div>
+
+            <h2>Planned tiers (not live billing yet)</h2>
+            <div class="grid two">
+                <div class="card">
+                    <div class="tier-head">
+                        <h3>Hobby / Local Pass</h3>
+                        <span class="price">$15/mo</span>
+                    </div>
+                    <p>Uncapped local execution on your own hardware.</p>
+                    <ul>
+                        <li>Workspace and Git binding</li>
+                        <li>Local GGUF / Deep2 lane</li>
+                        <li>Remote steering: <span class="withheld">Coming next</span></li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="tier-head">
+                        <h3>Cloud burst layer</h3>
+                        <span class="price">Separate track</span>
+                    </div>
+                    <p>Future GPU compute for users who want fully cloud access.</p>
+                    <ul>
+                        <li>Decoupled from tonight's local drop</li>
+                        <li>Not shared PHP/static hosting</li>
+                        <li>API boundary at <code>api.screenpilot.tech</code> when ready</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="preview">
+                <div class="preview-bar">screenpilot — desktop preview shell</div>
+                <div class="preview-body">
+                    <span class="dim">[ workspace ]</span> /projects/rawrxd &nbsp; branch: main<br>
+                    <span class="ok">●</span> LOCAL_ONLY_001 &nbsp; <span class="ok">●</span> STREAMER_CERT_001<br>
+                    <span class="dim">[!]</span> EGRESS_001 open — egress claims withheld<br>
+                    <span class="dim">[ steering ]</span> Remote phone / web — Coming next<br>
+                    <span class="dim">&gt;</span> Local Deep2 / GGUF agent stream…
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <span>LOCAL_ONLY_001 · STREAMER_CERT_001</span>
+            <span>EGRESS_001 open</span>
+            <span>screenpilot.tech</span>
+        </footer>
+    </div>
+</body>
+</html>
