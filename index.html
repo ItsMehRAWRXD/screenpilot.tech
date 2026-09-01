@@ -127,6 +127,29 @@
         .launch a.primary { border-color: var(--accent); color: var(--accent); }
         .launch a:hover { border-color: var(--accent); }
         .launch-note { font-size: 0.8rem; color: var(--muted); margin-top: 0.75rem; max-width: 640px; }
+        .stat-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+        .stat {
+            flex: 1 1 140px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .stat .value { font-size: 1.5rem; font-weight: 800; color: var(--accent); font-family: ui-monospace, monospace; }
+        .stat .label { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+        .cert-pass { color: #4ade80; }
+        .cert-open { color: #fbbf24; }
+        table.matrix { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 0.75rem; }
+        table.matrix th, table.matrix td {
+            border: 1px solid var(--border);
+            padding: 0.5rem 0.625rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        table.matrix th { background: #18181b; color: var(--muted); font-weight: 600; }
+        table.matrix td { color: var(--muted); }
+        .disclaimer { font-size: 0.75rem; color: var(--muted); margin: 0.75rem 0 1.5rem; max-width: 720px; }
+        .tag { font-family: ui-monospace, monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.04em; }
     </style>
 </head>
 <body>
@@ -138,16 +161,123 @@
             <p class="lead">The local-first command surface for steering coding agents across your workspaces.</p>
             <p class="sub">Desktop Preview now — not a finished remote-control or cloud IDE release.</p>
             <div class="launch">
-                <a class="primary" href="/gui/ide_chatbot_standalone.html">Open web agent shell</a>
-                <a href="/">Landing page</a>
-                <p class="launch-note"><strong>Use this URL:</strong> <a href="/gui/ide_chatbot_standalone.html">screenpilot.tech/gui/ide_chatbot_standalone.html</a><br>
-                Do <em>not</em> append <code>:11435/gui</code> to that path — that is only for a local IDE at <code>http://127.0.0.1:11435/gui</code> on your PC.<br>
-                GitHub Static Hosting: push this folder to your connected repo; leave Rewrite URL <strong>empty</strong> (or <code>/index.html</code> for SPA 404s only — not a Windows path).</p>
+                <a class="primary" href="/gui/ide_chatbot_standalone.html">Request Desktop Preview</a>
+                <a href="#certification">View certification scope</a>
+                <a href="#compare">Compare</a>
+                <p class="launch-note">Cloud/model hosting is a separate future lane. This release stays desktop-first.<br>
+                <strong>Hosted preview:</strong> <a href="https://rawrxd-screenpilot.garrettaosborne.chatgpt.site" rel="noopener noreferrer">rawrxd-screenpilot.garrettaosborne.chatgpt.site</a><br>
+                <strong>Agent shell:</strong> <a href="/gui/ide_chatbot_standalone.html">screenpilot.tech/gui/ide_chatbot_standalone.html</a> — live use needs local <code>http://127.0.0.1:11435/gui</code> on your PC.</p>
             </div>
         </header>
 
         <main>
-            <h2>What ships in Desktop Preview</h2>
+            <h2 id="certification">Certification posture</h2>
+            <p class="disclaimer">Internal product snapshot · 2026-08-31. Public copy lags sealed evidence — never leads it. RC1 release authority remains held until <code>P1PRA_002</code> Finalize=0.</p>
+            <div class="grid">
+                <div class="card">
+                    <h3 class="cert-pass">LOCAL_ONLY_001 — PASS / CERTIFIED</h3>
+                    <p>Deep2 + GGUF local inference, fail-closed when local policy is violated.</p>
+                </div>
+                <div class="card">
+                    <h3 class="cert-pass">STREAMER_CERT_001 — 10/10 PASS</h3>
+                    <p>Token-generation streamer certification retained.</p>
+                </div>
+                <div class="card">
+                    <h3 class="cert-pass">STREAMER_VRAM_APERTURE_001 — PASS</h3>
+                    <p>MASM aperture evidence retained. Not reopened by BATCH_085.</p>
+                </div>
+                <div class="card">
+                    <h3 class="cert-pass">MODEL_STREAMER_PRODUCT_PATH — WIRED</h3>
+                    <p>Real shared <code>InferenceEngine</code>. Synthetic token fallback removed.</p>
+                </div>
+                <div class="card">
+                    <h3 class="cert-pass">AGENTIC_AUTONOMOUS_TEMPLATE_001 — WIRED</h3>
+                    <p>Plan / Build / Agent are behavioral execution modes — not prompt cosmetics.</p>
+                </div>
+                <div class="card">
+                    <h3 class="cert-pass">WIN32IDE_LINK — PASS</h3>
+                    <p><code>P1PRA_SYMBOL_LINKED=1</code> on the product EXE.</p>
+                </div>
+                <div class="card">
+                    <h3 class="cert-open">P1PRA_002 / RC1 — HOLD</h3>
+                    <p>Product inference authority awaits end-to-end Finalize=0 witness (Load → Send → stream → lease release).</p>
+                </div>
+                <div class="card">
+                    <h3 class="cert-open">EGRESS_001 — OPEN</h3>
+                    <p>Whole-product default-deny egress not claimed. Remote phone/web steering remains Coming next.</p>
+                </div>
+            </div>
+
+            <h2 id="compare">RawrXD ScreenPilot vs top agentic IDEs</h2>
+            <p class="disclaimer">Weighted internal comparison across Cursor, Windsurf, GitHub Copilot, Claude, and Zed — not an independent industry certification. Bounded claim: real local-model streaming + behaviorally distinct Plan/Build/Agent. Release authority held pending P1PRA_002.</p>
+            <div class="stat-row">
+                <div class="stat"><div class="value">~85%</div><div class="label">BATCH_085 target (defensible)</div></div>
+                <div class="stat"><div class="value">HOLD</div><div class="label">RC1 until Finalize=0</div></div>
+                <div class="stat"><div class="value">4</div><div class="label">Waves to 85%</div></div>
+            </div>
+            <div class="grid two">
+                <div class="card">
+                    <span class="tag">INFERENCE</span>
+                    <h3>.gguf → InferenceEngine stream</h3>
+                    <p>StreamingGGUFLoader → AgenticModelStreamerBridge → Tokenize / Eval / Generate.</p>
+                </div>
+                <div class="card">
+                    <span class="tag">STEER</span>
+                    <h3>Plan / Build / Agent / Stop</h3>
+                    <p>Checklist+approve, streaming edit lane, multi-turn tools, cancel — CommandBroker (message, mode).</p>
+                </div>
+                <div class="card">
+                    <span class="tag">BOUNDARY</span>
+                    <h3>Fail-closed command broker</h3>
+                    <p>Session bind, write leases, approval queue, event journal on disk.</p>
+                </div>
+                <div class="card">
+                    <span class="tag">ROADMAP</span>
+                    <h3>IDE_PRODUCT_FINISH_BATCH_085</h3>
+                    <p>Waves 1–2 WIRED. Waves 3–4 (Git/search/persist/smoke) after P1PRA witness.</p>
+                </div>
+            </div>
+
+            <h2>Honest gaps vs leaders</h2>
+            <div class="card">
+                <table class="matrix">
+                    <thead><tr><th>Gap</th><th>Reference</th><th>Close path (BATCH_085)</th></tr></thead>
+                    <tbody>
+                        <tr><td>P1PRA Finalize=0 E2E witness</td><td>—</td><td>Physical Load + Build/Ask Send → E2E.log</td></tr>
+                        <tr><td>Context assembly depth / RAG</td><td>Cursor</td><td>Wave 1 context + Wave 3 search wire-up</td></tr>
+                        <tr><td>Build edit → run → repair loop polish</td><td>Cursor / Windsurf</td><td>Wave 2 edit txn + terminal observe</td></tr>
+                        <tr><td>Cloud / phone steering</td><td>Cursor Agents</td><td>REMOTE_CONTROL_001 after EGRESS_001</td></tr>
+                        <tr><td>Hosted agent parity</td><td>Windsurf</td><td>screenpilot.tech stays preview; live agent is Win32IDE / local :11435</td></tr>
+                        <tr><td>Session restore + Git/search Command UX</td><td>VS Code / Copilot</td><td>Wave 3 backlog</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Dimension matrix</h2>
+            <div class="card">
+                <table class="matrix">
+                    <thead><tr><th>Dimension</th><th>RawrXD evidence</th><th>Boundary / note</th></tr></thead>
+                    <tbody>
+                        <tr><td>Agent loop</td><td>Broker + Stop + StartAgentLoop</td><td>LOCAL_ONLY_001 + approvals</td></tr>
+                        <tr><td>Local GGUF inference</td><td>Real InferenceEngine product path</td><td>Roots include <code>G:\OllamaModels</code>; no default Ollama pull</td></tr>
+                        <tr><td>Plan / Build / Agent</td><td>Behavioral modes WIRED</td><td>Not cosmetic prompt prefixes</td></tr>
+                        <tr><td>Multi-file edits</td><td>Build stage → diff → Allow/Deny</td><td>Wave 2 edit transaction</td></tr>
+                        <tr><td>Egress posture</td><td>Fail-closed architecture</td><td>EGRESS_001 open</td></tr>
+                        <tr><td>Product authority</td><td>P1PRA stage ledger linked</td><td>RC1 HOLD until Finalize=0</td></tr>
+                        <tr><td>Command-home vs IDE</td><td>Ctrl+Shift+W two-shell</td><td>Reversible workflow</td></tr>
+                        <tr><td>Ship maturity</td><td>BATCH_085 → defensible 85%</td><td>~15% polish/parity reserved after</td></tr>
+                        <tr><td>Cloud / remote agents</td><td>Not exposed</td><td>Coming next after EGRESS_001</td></tr>
+                        <tr><td>Native performance</td><td>Win32 + MASM</td><td>Zed is Rust-native reference</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Next ship</h2>
+            <div class="card">
+                <p>Seal <code>P1PRA_002_E2E_PRODUCT_AUTHORITY</code> with Finalize=0, then Wave 3–4 (Git, search, persistence, approval center, settings, smoke, evidence bundle). Frozen cert lanes stay untouched.</p>
+            </div>
+
+            <h2>Tonight’s drop</h2>
             <div class="grid two">
                 <div class="card">
                     <h3>Command-home UI</h3>
@@ -155,7 +285,7 @@
                 </div>
                 <div class="card">
                     <h3>Local Deep2 / GGUF</h3>
-                    <p>In-process inference lane. Scan and load weights from local roots such as <code>F:\OllamaModels</code>.</p>
+                    <p>In-process inference lane. Scan and load weights from local roots such as <code>G:\OllamaModels</code>.</p>
                 </div>
                 <div class="card">
                     <h3>Model hub</h3>
@@ -175,31 +305,40 @@
                 </div>
             </div>
 
-            <h2>Planned tiers (not live billing yet)</h2>
+            <h2>ScreenPilot Sovereign Pro</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="tier-head">
+                        <h3>Sovereign Pro — perpetual license</h3>
+                        <span class="price">$599 one-time</span>
+                    </div>
+                    <p>Full local IDE product license. Perpetual for the current major version. No subscription.</p>
+                    <ul>
+                        <li>Ad-free <code>screenpilot.tech</code> documentation access</li>
+                        <li>Local Deep2 / GGUF execution on your hardware</li>
+                        <li>MASM-native acceleration and workspace / Git integration</li>
+                        <li>Agentic plan / build / test workflow (Command-home + Work Mode)</li>
+                        <li>Offline, local-first operation — one user, multiple owned devices</li>
+                    </ul>
+                    <p class="sub" style="margin-top:0.75rem;">Native Win32 application remains ad-free for all users. Cloud inference and remote steering are not included; cloud usage stays separately metered. Remote control remains gated until <code>EGRESS_001</code> closes.</p>
+                </div>
+            </div>
+
+            <h2>Enterprise deployment</h2>
             <div class="grid two">
                 <div class="card">
                     <div class="tier-head">
-                        <h3>Hobby / Local Pass</h3>
-                        <span class="price">$15/mo</span>
+                        <h3>Team license</h3>
+                        <span class="price">$2,500–$10,000</span>
                     </div>
-                    <p>Uncapped local execution on your own hardware.</p>
-                    <ul>
-                        <li>Workspace and Git binding</li>
-                        <li>Local GGUF / Deep2 lane</li>
-                        <li>Remote steering: <span class="withheld">Coming next</span></li>
-                    </ul>
+                    <p>Per-deployment team licensing for private workspaces and controlled rollout.</p>
                 </div>
                 <div class="card">
                     <div class="tier-head">
-                        <h3>Cloud burst layer</h3>
-                        <span class="price">Separate track</span>
+                        <h3>Private / sovereign deployment</h3>
+                        <span class="price">$50k–$2M+</span>
                     </div>
-                    <p>Future GPU compute for users who want fully cloud access.</p>
-                    <ul>
-                        <li>Decoupled from tonight's local drop</li>
-                        <li>Not shared PHP/static hosting</li>
-                        <li>API boundary at <code>api.screenpilot.tech</code> when ready</li>
-                    </ul>
+                    <p>Hardened private deployment, sovereign/defense builds, and enterprise support contracts.</p>
                 </div>
             </div>
 
@@ -207,17 +346,19 @@
                 <div class="preview-bar">screenpilot — desktop preview shell</div>
                 <div class="preview-body">
                     <span class="dim">[ workspace ]</span> /projects/rawrxd &nbsp; branch: main<br>
-                    <span class="ok">●</span> LOCAL_ONLY_001 &nbsp; <span class="ok">●</span> STREAMER_CERT_001<br>
+                    <span class="ok">●</span> LOCAL_ONLY_001 &nbsp; <span class="ok">●</span> STREAMER_CERT_001 &nbsp; <span class="ok">●</span> STREAMER_VRAM_APERTURE_001<br>
+                    <span class="ok">●</span> MODEL_STREAMER_PRODUCT_PATH &nbsp; <span class="ok">●</span> AGENTIC_AUTONOMOUS_TEMPLATE_001<br>
+                    <span class="dim">[!]</span> P1PRA_002 / RC1 HOLD — Finalize=0 witness required<br>
                     <span class="dim">[!]</span> EGRESS_001 open — egress claims withheld<br>
                     <span class="dim">[ steering ]</span> Remote phone / web — Coming next<br>
-                    <span class="dim">&gt;</span> Local Deep2 / GGUF agent stream…
+                    <span class="dim">&gt;</span> Local Deep2 / GGUF → InferenceEngine stream…
                 </div>
             </div>
         </main>
 
         <footer>
-            <span>LOCAL_ONLY_001 · STREAMER_CERT_001</span>
-            <span>EGRESS_001 open</span>
+            <span>LOCAL_ONLY_001 · STREAMER_CERT_001 · BATCH_085</span>
+            <span>P1PRA_002 HOLD · EGRESS_001 open</span>
             <span>screenpilot.tech</span>
         </footer>
     </div>
