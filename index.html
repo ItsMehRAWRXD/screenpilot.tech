@@ -172,15 +172,19 @@
 
         <main>
             <h2 id="certification">Certification posture</h2>
-            <p class="disclaimer">Internal product snapshot · 2026-08-31. Public copy lags sealed evidence — never leads it. RC1 release authority remains held until <code>P1PRA_002</code> Finalize=0.</p>
+            <p class="disclaimer">Internal product snapshot · 2026-09-10 (was 2026-08-31). Public copy lags sealed evidence — never leads it. <code>PROMOTE=0</code> · <code>TIP_CLIMB=HOLD</code>. RC1 remains held until <code>P1PRA_002</code> Finalize=0.</p>
             <div class="grid">
                 <div class="card">
                     <h3 class="cert-pass">LOCAL_ONLY_001 — PASS / CERTIFIED</h3>
-                    <p>Deep2 + GGUF local inference, fail-closed when local policy is violated.</p>
+                    <p>Deep2 + GGUF local inference, fail-closed when local policy is violated. Retained.</p>
                 </div>
                 <div class="card">
                     <h3 class="cert-pass">STREAMER_CERT_001 — 10/10 PASS</h3>
                     <p>Token-generation streamer certification retained.</p>
+                </div>
+                <div class="card">
+                    <h3 class="cert-pass">STREAMER_AGENTIC_CONTINUE_ENSURE — PASS</h3>
+                    <p>New since site cut: <code>G3_STREAMER_AGENTIC_CONTINUE_ENSURE_001</code> · <code>PRODUCT_PASS=1</code> · <code>STREAMER_AGENTIC_READY=1</code>. Still <code>PROMOTE=0</code>.</p>
                 </div>
                 <div class="card">
                     <h3 class="cert-pass">STREAMER_VRAM_APERTURE_001 — PASS</h3>
@@ -203,12 +207,16 @@
                     <p>Orthogonal decode nozzle (needle/mist/pulse/rinse/cutoff/repair). Does not change ctx, temp, GPU split, or model path. Not a knowledge substitute.</p>
                 </div>
                 <div class="card">
+                    <h3 class="cert-open">SCOREBOARD_SCHEDULER — SOURCE_WIRED / LIVE=0</h3>
+                    <p>New since site cut: <code>G3_DEEP2_SCOREBOARD_SCHEDULER_LAW_001</code> · P1 Prime/Bind/pump on product path. <code>SCOREBOARD_SCHEDULER_LIVE=0</code> until TinyLlama decode witness. Joins still present (<code>SCOREBOARD_WAIT_PER_LAYER=1</code>).</p>
+                </div>
+                <div class="card">
                     <h3 class="cert-open">P1PRA_002 / RC1 — HOLD</h3>
-                    <p>Product inference authority awaits end-to-end Finalize=0 witness (Load → Send → stream → lease release).</p>
+                    <p>Product inference authority awaits end-to-end Finalize=0 witness (Load → Send → stream → lease release). No <code>P1PRA_002</code> evidence folder closed yet.</p>
                 </div>
                 <div class="card">
                     <h3 class="cert-open">EGRESS_001 — OPEN</h3>
-                    <p>Whole-product default-deny egress not claimed. Remote phone/web steering remains Coming next.</p>
+                    <p>Whole-product default-deny egress not claimed. Remote phone/web steering remains Coming next. Hosted shell loads; chat needs local <code>:11435</code>.</p>
                 </div>
             </div>
 
