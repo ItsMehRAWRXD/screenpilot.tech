@@ -22,7 +22,9 @@
 | GitHub Connect | **Connected** → `ItsMehRAWRXD/screenpilot.tech` · branch `main` |
 | Storage | 5 GB |
 
-**Critical:** pushes to `main` auto-publish to production. Do **not** merge rebuild work to `main` until staging acceptance.
+**Critical:** pushes to `main` auto-publish to production via Porkbun GitHub Connect.
+
+**Live as of 2026-11-13:** production serves `main` (merge commit published after rebuild acceptance). Footer must read `production · main`, never `staging candidate`.
 
 ## Safe rebuild workflow
 
