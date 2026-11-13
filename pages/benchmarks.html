@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benchmarks — RawrXD</title>
+  <meta name="description" content="Verified CPU/GPU results and reproducibility notes — no invented scores.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>RawrXD <span>/ ScreenPilot</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/pages/ide.html">IDE</a>
+        <a href="/pages/deep2.html">Deep2</a>
+        <a href="/pages/benchmarks.html" aria-current="page">Benchmarks</a>
+        <a href="/pages/research.html">Research</a>
+        <a href="/pages/roadmap.html">Roadmap</a>
+        <a href="/pages/docs.html">Docs</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="https://github.com/ItsMehRAWRXD" rel="noopener noreferrer">GitHub</a>
+        <a class="btn btn-primary" href="/gui/ide_chatbot_standalone.html">Explore RawrXD</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu">Menu</button>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <header class="page-hero reveal">
+      <div class="kicker">Evidence</div>
+      <h1>Verified results only — no invented scores</h1>
+      <p>Benchmarks list only reproducible CPU/GPU results tied to exact commits. Until published with build IDs, claims stay qualitative.</p>
+    </header>
+    <div class="panel reveal">
+      <h3>Published now</h3>
+      <ul class="list">
+        <li><span class="mark">GPU</span> VulkanPrimary smoke milestone (<code>GPU_REQUIRED_001</code>, commit <code>4400d9f4bc</code>)</li>
+        <li><span class="mark">PARITY</span> Multi-token / MoE allowlist parity measured; divergence investigation open</li>
+        <li><span class="mark">HELD</span> No public completion percentage or certified throughput claims</li>
+      </ul>
+    </div>
+    <div class="banner reveal">Public benchmark tables will appear after exact build versions and reproducibility notes are attached.</div>
+  </main>
+  <footer class="footer"><div class="wrap footer-bottom"><span>PROMOTE=0 · CERTIFIED=0 · TIP_CLIMB=HOLD</span><span><a href="/">Home</a> · screenpilot.tech</span></div></footer>
+  <script src="/js/site.js"></script>
+</body>
+</html>
