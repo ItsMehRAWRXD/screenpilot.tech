@@ -1,3 +1,6 @@
 .DS_Store
 Thumbs.db
 *.log
+
+# Design-reference screenshots (not product assets; do not publish)
+assets/screens/

@@ -1,379 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RawrXD ScreenPilot — Local-First Command Surface</title>
-    <style>
-        :root {
-            --bg: #09090b;
-            --surface: #121214;
-            --border: #27272a;
-            --text: #f4f4f5;
-            --muted: #71717a;
-            --accent: #38bdf8;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-        }
-        .container { max-width: 880px; margin: 0 auto; padding: 2.5rem 1.25rem; }
-        header { border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 2.5rem; }
-        .badge {
-            display: inline-block;
-            background: rgba(56, 189, 248, 0.1);
-            color: var(--accent);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.25rem 0.625rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            font-family: ui-monospace, monospace;
-            letter-spacing: 0.04em;
-        }
-        .logo { font-size: 0.95rem; font-weight: 600; color: var(--muted); margin-bottom: 0.75rem; }
-        h1 {
-            font-size: 2rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.15;
-            margin-bottom: 1rem;
-        }
-        .lead { color: var(--muted); font-size: 1.05rem; max-width: 640px; margin-bottom: 0.5rem; }
-        .sub { color: var(--muted); font-size: 0.9rem; max-width: 640px; }
-        h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
-        }
-        @media (min-width: 600px) { .grid.two { grid-template-columns: 1fr 1fr; } }
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.25rem;
-        }
-        .card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
-        .card p, .card li { font-size: 0.875rem; color: var(--muted); }
-        .card ul { margin: 0.75rem 0 0; padding-left: 1.25rem; }
-        .card li { margin-bottom: 0.4rem; }
-        .card code {
-            font-family: ui-monospace, monospace;
-            font-size: 0.8rem;
-            color: var(--accent);
-        }
-        .tier-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 0.5rem;
-        }
-        .price { font-family: ui-monospace, monospace; color: var(--accent); font-size: 0.95rem; }
-        .preview {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-            margin-top: 2rem;
-        }
-        .preview-bar {
-            background: #18181b;
-            border-bottom: 1px solid var(--border);
-            padding: 0.5rem 0.75rem;
-            font-family: ui-monospace, monospace;
-            font-size: 0.7rem;
-            color: var(--muted);
-        }
-        .preview-body {
-            padding: 1rem 1.25rem;
-            font-family: ui-monospace, monospace;
-            font-size: 0.8rem;
-            color: var(--muted);
-            line-height: 1.6;
-        }
-        .preview-body .ok { color: #4ade80; }
-        .preview-body .dim { color: #52525b; }
-        footer {
-            border-top: 1px solid var(--border);
-            padding-top: 1.5rem;
-            font-size: 0.75rem;
-            color: var(--muted);
-            font-family: ui-monospace, monospace;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: space-between;
-        }
-        .withheld { color: #a1a1aa; font-style: normal; }
-        .launch { margin-bottom: 2.5rem; }
-        .launch a {
-            display: inline-block;
-            margin: 0.25rem 0.5rem 0.25rem 0;
-            padding: 0.5rem 0.875rem;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-decoration: none;
-            border: 1px solid var(--border);
-            color: var(--text);
-            background: var(--surface);
-        }
-        .launch a.primary { border-color: var(--accent); color: var(--accent); }
-        .launch a:hover { border-color: var(--accent); }
-        .launch-note { font-size: 0.8rem; color: var(--muted); margin-top: 0.75rem; max-width: 640px; }
-        .stat-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
-        .stat {
-            flex: 1 1 140px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-        }
-        .stat .value { font-size: 1.5rem; font-weight: 800; color: var(--accent); font-family: ui-monospace, monospace; }
-        .stat .label { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
-        .cert-pass { color: #4ade80; }
-        .cert-open { color: #fbbf24; }
-        table.matrix { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 0.75rem; }
-        table.matrix th, table.matrix td {
-            border: 1px solid var(--border);
-            padding: 0.5rem 0.625rem;
-            text-align: left;
-            vertical-align: top;
-        }
-        table.matrix th { background: #18181b; color: var(--muted); font-weight: 600; }
-        table.matrix td { color: var(--muted); }
-        .disclaimer { font-size: 0.75rem; color: var(--muted); margin: 0.75rem 0 1.5rem; max-width: 720px; }
-        .tag { font-family: ui-monospace, monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.04em; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RawrXD — Local AI Development Workstation</title>
+  <meta name="description" content="Build, debug, and automate software with local AI models, native inference, GPU acceleration, and integrated coding agents. Desktop Preview — certification in progress.">
+  <meta name="robots" content="index,follow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">RawrXD ScreenPilot</div>
-            <span class="badge">DESKTOP PREVIEW</span>
-            <h1>Your machine. Your models. Your agents. Any screen.</h1>
-            <p class="lead">The local-first command surface for steering coding agents across your workspaces.</p>
-            <p class="sub">Desktop Preview now — not a finished remote-control or cloud IDE release.</p>
-            <div class="launch">
-                <a class="primary" href="/gui/ide_chatbot_standalone.html">Request Desktop Preview</a>
-                <a href="#certification">View certification scope</a>
-                <a href="#compare">Compare</a>
-                <p class="launch-note">Cloud/model hosting is a separate future lane. This release stays desktop-first.<br>
-                <strong>Hosted preview:</strong> <a href="https://rawrxd-screenpilot.garrettaosborne.chatgpt.site" rel="noopener noreferrer">rawrxd-screenpilot.garrettaosborne.chatgpt.site</a><br>
-                <strong>Agent shell:</strong> <a href="/gui/ide_chatbot_standalone.html">screenpilot.tech/gui/ide_chatbot_standalone.html</a> — live use needs local <code>http://127.0.0.1:11435/gui</code> on your PC.</p>
-            </div>
-        </header>
+  <div class="bg-glow" aria-hidden="true"></div>
 
-        <main>
-            <h2 id="certification">Certification posture</h2>
-            <p class="disclaimer">Internal product snapshot · 2026-09-10 (was 2026-08-31). Public copy lags sealed evidence — never leads it. <code>PROMOTE=0</code> · <code>TIP_CLIMB=HOLD</code>. RC1 remains held until <code>P1PRA_002</code> Finalize=0.</p>
-            <div class="grid">
-                <div class="card">
-                    <h3 class="cert-pass">LOCAL_ONLY_001 — PASS / CERTIFIED</h3>
-                    <p>Deep2 + GGUF local inference, fail-closed when local policy is violated. Retained.</p>
-                </div>
-                <div class="card">
-                    <h3 class="cert-pass">STREAMER_CERT_001 — 10/10 PASS</h3>
-                    <p>Token-generation streamer certification retained.</p>
-                </div>
-                <div class="card">
-                    <h3 class="cert-pass">STREAMER_AGENTIC_CONTINUE_ENSURE — PASS</h3>
-                    <p>New since site cut: <code>G3_STREAMER_AGENTIC_CONTINUE_ENSURE_001</code> · <code>PRODUCT_PASS=1</code> · <code>STREAMER_AGENTIC_READY=1</code>. Still <code>PROMOTE=0</code>.</p>
-                </div>
-                <div class="card">
-                    <h3 class="cert-pass">STREAMER_VRAM_APERTURE_001 — PASS</h3>
-                    <p>MASM aperture evidence retained. Not reopened by BATCH_085.</p>
-                </div>
-                <div class="card">
-                    <h3 class="cert-pass">MODEL_STREAMER_PRODUCT_PATH — WIRED</h3>
-                    <p>Real shared <code>InferenceEngine</code>. Synthetic token fallback removed.</p>
-                </div>
-                <div class="card">
-                    <h3 class="cert-pass">AGENTIC_AUTONOMOUS_TEMPLATE_001 — WIRED</h3>
-                    <p>Plan / Build / Agent are behavioral execution modes — not prompt cosmetics.</p>
-                </div>
-                <div class="card">
-                    <h3 class="cert-pass">WIN32IDE_LINK — PASS</h3>
-                    <p><code>P1PRA_SYMBOL_LINKED=1</code> on the product EXE.</p>
-                </div>
-                <div class="card">
-                    <h3 class="cert-open">TOKEN_PRESSURE_VALVE_001 — WIRED</h3>
-                    <p>Orthogonal decode nozzle (needle/mist/pulse/rinse/cutoff/repair). Does not change ctx, temp, GPU split, or model path. Not a knowledge substitute.</p>
-                </div>
-                <div class="card">
-                    <h3 class="cert-open">SCOREBOARD_SCHEDULER — SOURCE_WIRED / LIVE=0</h3>
-                    <p>New since site cut: <code>G3_DEEP2_SCOREBOARD_SCHEDULER_LAW_001</code> · P1 Prime/Bind/pump on product path. <code>SCOREBOARD_SCHEDULER_LIVE=0</code> until TinyLlama decode witness. Joins still present (<code>SCOREBOARD_WAIT_PER_LAYER=1</code>).</p>
-                </div>
-                <div class="card">
-                    <h3 class="cert-open">P1PRA_002 / RC1 — HOLD</h3>
-                    <p>Product inference authority awaits end-to-end Finalize=0 witness (Load → Send → stream → lease release). No <code>P1PRA_002</code> evidence folder closed yet.</p>
-                </div>
-                <div class="card">
-                    <h3 class="cert-open">EGRESS_001 — OPEN</h3>
-                    <p>Whole-product default-deny egress not claimed. Remote phone/web steering remains Coming next. Hosted shell loads; chat needs local <code>:11435</code>.</p>
-                </div>
-            </div>
-
-            <h2 id="compare">RawrXD ScreenPilot vs top agentic IDEs</h2>
-            <p class="disclaimer">Weighted internal comparison across Cursor, Windsurf, GitHub Copilot, Claude, and Zed — not an independent industry certification. Bounded claim: real local-model streaming + behaviorally distinct Plan/Build/Agent. Release authority held pending P1PRA_002.</p>
-            <div class="stat-row">
-                <div class="stat"><div class="value">~85%</div><div class="label">BATCH_085 target (defensible)</div></div>
-                <div class="stat"><div class="value">HOLD</div><div class="label">RC1 until Finalize=0</div></div>
-                <div class="stat"><div class="value">4</div><div class="label">Waves to 85%</div></div>
-            </div>
-            <div class="grid two">
-                <div class="card">
-                    <span class="tag">INFERENCE</span>
-                    <h3>.gguf → InferenceEngine stream</h3>
-                    <p>StreamingGGUFLoader → AgenticModelStreamerBridge → Tokenize / Eval / Generate.</p>
-                </div>
-                <div class="card">
-                    <span class="tag">STEER</span>
-                    <h3>Plan / Build / Agent / Stop</h3>
-                    <p>Checklist+approve, streaming edit lane, multi-turn tools, cancel — CommandBroker (message, mode).</p>
-                </div>
-                <div class="card">
-                    <span class="tag">BOUNDARY</span>
-                    <h3>Fail-closed command broker</h3>
-                    <p>Session bind, write leases, approval queue, event journal on disk.</p>
-                </div>
-                <div class="card">
-                    <span class="tag">ROADMAP</span>
-                    <h3>IDE_PRODUCT_FINISH_BATCH_085</h3>
-                    <p>Waves 1–2 WIRED. Waves 3–4 (Git/search/persist/smoke) after P1PRA witness.</p>
-                </div>
-            </div>
-
-            <h2>Honest gaps vs leaders</h2>
-            <div class="card">
-                <table class="matrix">
-                    <thead><tr><th>Gap</th><th>Reference</th><th>Close path (BATCH_085)</th></tr></thead>
-                    <tbody>
-                        <tr><td>Token pressure / anti-loop nozzle</td><td>—</td><td>TOKEN_PRESSURE_VALVE_001 (orthogonal to ctx/temp/GPU/path)</td></tr>
-                        <tr><td>P1PRA Finalize=0 E2E witness</td><td>—</td><td>Physical Load + Build/Ask Send → E2E.log</td></tr>
-                        <tr><td>Context assembly depth / RAG</td><td>Cursor</td><td>Wave 1 context + Wave 3 search wire-up</td></tr>
-                        <tr><td>Build edit → run → repair loop polish</td><td>Cursor / Windsurf</td><td>Wave 2 edit txn + terminal observe</td></tr>
-                        <tr><td>Cloud / phone steering</td><td>Cursor Agents</td><td>REMOTE_CONTROL_001 after EGRESS_001</td></tr>
-                        <tr><td>Hosted agent parity</td><td>Windsurf</td><td>screenpilot.tech stays preview; live agent is Win32IDE / local :11435</td></tr>
-                        <tr><td>Session restore + Git/search Command UX</td><td>VS Code / Copilot</td><td>Wave 3 backlog</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h2>Dimension matrix</h2>
-            <div class="card">
-                <table class="matrix">
-                    <thead><tr><th>Dimension</th><th>RawrXD evidence</th><th>Boundary / note</th></tr></thead>
-                    <tbody>
-                        <tr><td>Agent loop</td><td>Broker + Stop + StartAgentLoop</td><td>LOCAL_ONLY_001 + approvals</td></tr>
-                        <tr><td>Local GGUF inference</td><td>Real InferenceEngine product path</td><td>Roots include <code>G:\OllamaModels</code>; no default Ollama pull</td></tr>
-                        <tr><td>Plan / Build / Agent</td><td>Behavioral modes WIRED</td><td>Not cosmetic prompt prefixes</td></tr>
-                        <tr><td>Multi-file edits</td><td>Build stage → diff → Allow/Deny</td><td>Wave 2 edit transaction</td></tr>
-                        <tr><td>Egress posture</td><td>Fail-closed architecture</td><td>EGRESS_001 open</td></tr>
-                        <tr><td>Product authority</td><td>P1PRA stage ledger linked</td><td>RC1 HOLD until Finalize=0</td></tr>
-                        <tr><td>Command-home vs IDE</td><td>Ctrl+Shift+W two-shell</td><td>Reversible workflow</td></tr>
-                        <tr><td>Ship maturity</td><td>BATCH_085 → defensible 85%</td><td>~15% polish/parity reserved after</td></tr>
-                        <tr><td>Cloud / remote agents</td><td>Not exposed</td><td>Coming next after EGRESS_001</td></tr>
-                        <tr><td>Native performance</td><td>Win32 + MASM</td><td>Zed is Rust-native reference</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h2>Next ship</h2>
-            <div class="card">
-                <p>Seal <code>P1PRA_002_E2E_PRODUCT_AUTHORITY</code> with Finalize=0, then Wave 3–4 (Git, search, persistence, approval center, settings, smoke, evidence bundle). Frozen cert lanes stay untouched.</p>
-            </div>
-
-            <h2>Tonight’s drop</h2>
-            <div class="grid two">
-                <div class="card">
-                    <h3>Command-home UI</h3>
-                    <p>Workspace and Git context, agent transcript, composer, activity strip, and Stop control.</p>
-                </div>
-                <div class="card">
-                    <h3>Local Deep2 / GGUF</h3>
-                    <p>In-process inference lane. Scan and load weights from local roots such as <code>G:\OllamaModels</code>.</p>
-                </div>
-                <div class="card">
-                    <h3>Model hub</h3>
-                    <p>Browse and load local <code>.gguf</code> / <code>.bin</code> files. No cloud weight fetch, no <code>ollama pull</code> in this path.</p>
-                </div>
-                <div class="card">
-                    <h3>Approval boundaries</h3>
-                    <p>Fail-closed control channel. LocalServer auto-start suppressed in Command mode.</p>
-                </div>
-            </div>
-
-            <h2>Coming next</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Remote steering</h3>
-                    <p>Phone and web control via paired-device service — TLS, pairing, scoped tokens. Not a public model port on your PC.</p>
-                </div>
-            </div>
-
-            <h2>ScreenPilot Sovereign Pro</h2>
-            <div class="grid">
-                <div class="card">
-                    <div class="tier-head">
-                        <h3>Sovereign Pro — perpetual license</h3>
-                        <span class="price">$599 one-time</span>
-                    </div>
-                    <p>Full local IDE product license. Perpetual for the current major version. No subscription.</p>
-                    <ul>
-                        <li>Ad-free <code>screenpilot.tech</code> documentation access</li>
-                        <li>Local Deep2 / GGUF execution on your hardware</li>
-                        <li>MASM-native acceleration and workspace / Git integration</li>
-                        <li>Agentic plan / build / test workflow (Command-home + Work Mode)</li>
-                        <li>Offline, local-first operation — one user, multiple owned devices</li>
-                    </ul>
-                    <p class="sub" style="margin-top:0.75rem;">Native Win32 application remains ad-free for all users. Cloud inference and remote steering are not included; cloud usage stays separately metered. Remote control remains gated until <code>EGRESS_001</code> closes.</p>
-                </div>
-            </div>
-
-            <h2>Enterprise deployment</h2>
-            <div class="grid two">
-                <div class="card">
-                    <div class="tier-head">
-                        <h3>Team license</h3>
-                        <span class="price">$2,500–$10,000</span>
-                    </div>
-                    <p>Per-deployment team licensing for private workspaces and controlled rollout.</p>
-                </div>
-                <div class="card">
-                    <div class="tier-head">
-                        <h3>Private / sovereign deployment</h3>
-                        <span class="price">$50k–$2M+</span>
-                    </div>
-                    <p>Hardened private deployment, sovereign/defense builds, and enterprise support contracts.</p>
-                </div>
-            </div>
-
-            <div class="preview">
-                <div class="preview-bar">screenpilot — desktop preview shell</div>
-                <div class="preview-body">
-                    <span class="dim">[ workspace ]</span> /projects/rawrxd &nbsp; branch: main<br>
-                    <span class="ok">●</span> LOCAL_ONLY_001 &nbsp; <span class="ok">●</span> STREAMER_CERT_001 &nbsp; <span class="ok">●</span> STREAMER_VRAM_APERTURE_001<br>
-                    <span class="ok">●</span> MODEL_STREAMER_PRODUCT_PATH &nbsp; <span class="ok">●</span> AGENTIC_AUTONOMOUS_TEMPLATE_001<br>
-                    <span class="dim">[!]</span> P1PRA_002 / RC1 HOLD — Finalize=0 witness required<br>
-                    <span class="dim">[!]</span> EGRESS_001 open — egress claims withheld<br>
-                    <span class="dim">[ steering ]</span> Remote phone / web — Coming next<br>
-                    <span class="dim">&gt;</span> Local Deep2 / GGUF → InferenceEngine stream…
-                </div>
-            </div>
-        </main>
-
-        <footer>
-            <span>LOCAL_ONLY_001 · STREAMER_CERT_001 · BATCH_085</span>
-            <span>P1PRA_002 HOLD · EGRESS_001 open</span>
-            <span>screenpilot.tech</span>
-        </footer>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true"></span>
+        RawrXD <span>/ ScreenPilot</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/pages/ide.html">IDE</a>
+        <a href="/pages/deep2.html">Deep2</a>
+        <a href="/pages/benchmarks.html">Benchmarks</a>
+        <a href="/pages/research.html">Research</a>
+        <a href="/pages/roadmap.html">Roadmap</a>
+        <a href="/pages/docs.html">Docs</a>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn btn-ghost" href="https://github.com/ItsMehRAWRXD" rel="noopener noreferrer">GitHub</a>
+        <a class="btn btn-primary" href="/gui/ide_chatbot_standalone.html">Explore RawrXD</a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu">Menu</button>
+      </div>
     </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <div class="eyebrow"><span class="dot" aria-hidden="true"></span> Advanced Development Preview — Core capabilities operational, production certification in progress</div>
+      <h1>Your Machine. Your Models. Your AI Development Workstation.</h1>
+      <p class="lead">Build, debug, and automate software with local AI models, native inference, GPU acceleration, and integrated coding agents. Designed for developers who want control over their tools.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/gui/ide_chatbot_standalone.html">Explore RawrXD</a>
+        <a class="btn btn-ghost" href="https://github.com/ItsMehRAWRXD" rel="noopener noreferrer">View GitHub</a>
+      </div>
+      <p class="hero-note">Desktop Preview — Certification In Progress · <code>PROMOTE=0</code> · <code>CERTIFIED=0</code> for full IDE release</p>
+
+      <div class="product-frame reveal" aria-label="RawrXD product preview frame">
+        <div class="frame-bar">
+          <div class="frame-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+          rawrxd — local workstation · Deep2 / GGUF · VulkanPrimary path
+        </div>
+        <div class="frame-grid">
+          <aside class="frame-side">
+            <div class="frame-label">Workspace</div>
+            <div class="side-item active">Command surface</div>
+            <div class="side-item">Editor</div>
+            <div class="side-item">Terminal</div>
+            <div class="side-item">Problems</div>
+            <div class="side-item">Agents</div>
+            <div class="side-item">Model hub</div>
+          </aside>
+          <div class="frame-main">
+            <div class="frame-label">Native inference · agent loop</div>
+            <p class="code-line"><span class="cm">// Local-first path — no cloud weight fetch required</span></p>
+            <p class="code-line"><span class="kw">load</span> <span class="fn">gguf</span>("models/deep2-local.gguf")</p>
+            <p class="code-line"><span class="kw">bind</span> <span class="fn">InferenceEngine</span> → streamer</p>
+            <p class="code-line"><span class="kw">mode</span> Plan | Build | Agent</p>
+            <p class="code-line"><span class="fn">Generate</span>() · GPU smoke · multi-token parity</p>
+            <p class="code-line"><span class="cm">// Working paths measured · full IDE certification held</span></p>
+            <div style="margin-top:1rem">
+              <span class="chip ok">LOCAL_ONLY</span>
+              <span class="chip ok">GPU smoke</span>
+              <span class="chip warn">parity partial</span>
+              <span class="chip held">PROMOTE=0</span>
+            </div>
+          </div>
+          <aside class="frame-right">
+            <div class="frame-label">Gates</div>
+            <div class="right-item">VulkanPrimary · measured</div>
+            <div class="right-item">REAP export · demonstrated</div>
+            <div class="right-item">MoE allowlist · partial</div>
+            <div class="right-item">MiniMax quality · open</div>
+            <div class="right-item">EGRESS / remote · open</div>
+            <div class="right-item">Release cert · held</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-head reveal">
+        <div class="kicker">Platform</div>
+        <h2>A local-first AI workstation, not a cloud dashboard</h2>
+        <p>RawrXD combines a native IDE command surface with Deep2 inference so your models, agents, and hardware stay under your control.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature reveal">
+          <div class="icon">01</div>
+          <h3>RawrXD IDE</h3>
+          <p>Editor, terminal, Problems, debugging, and agent modes for Plan / Build / Agent workflows on your machine.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="icon">02</div>
+          <h3>Deep2 Engine</h3>
+          <p>Native GGUF inference, streaming, quantization lanes, and local model loading without default cloud pulls.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="icon">03</div>
+          <h3>GPU acceleration</h3>
+          <p>VulkanPrimary GPU smoke and multi-token parity work mark a measured GPU execution milestone — not full release certification.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="icon">04</div>
+          <h3>Coding agents</h3>
+          <p>Behaviorally distinct agent loops with approvals and fail-closed local boundaries — demonstrated, still hardening.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="icon">05</div>
+          <h3>Physical REAP</h3>
+          <p>Physical model reduction export and runtime execution have been demonstrated as engineering paths.</p>
+        </article>
+        <article class="feature reveal">
+          <div class="icon">06</div>
+          <h3>Verifiable evidence</h3>
+          <p>Public claims track sealed GitHub evidence. Working components are not presented as a certified IDE release.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-head reveal">
+        <div class="kicker">Engineering status · Nov 13, 2026</div>
+        <h2>Measured progress, transparent limits</h2>
+        <p>Working engineering paths are not the same as a fully certified IDE. Status below separates major progress from open gates.</p>
+      </div>
+      <div class="status-board reveal">
+        <div class="status-row head">
+          <div>Capability</div>
+          <div>Latest evidence</div>
+          <div>Assessment</div>
+        </div>
+        <div class="status-row">
+          <div class="title">Local GGUF inference</div>
+          <div class="meta">Native Deep2 plus Ollama/Strata execution paths</div>
+          <div><span class="pill major">Major progress</span></div>
+        </div>
+        <div class="status-row">
+          <div class="title">GPU acceleration</div>
+          <div class="meta">VulkanPrimary smoke (<code>GPU_REQUIRED_001</code>); multi-token parity work; milestone commit <code>4400d9f4bc</code></div>
+          <div><span class="pill major">Major progress</span></div>
+        </div>
+        <div class="status-row">
+          <div class="title">Agent build/test loop</div>
+          <div class="meta">Real multi-step agent execution previously demonstrated</div>
+          <div><span class="pill major">Improved</span></div>
+        </div>
+        <div class="status-row">
+          <div class="title">IDE UI / terminal</div>
+          <div class="meta">Chat, terminal, output, Problems, and debugging exercised</div>
+          <div><span class="pill major">Improved</span></div>
+        </div>
+        <div class="status-row">
+          <div class="title">Model streaming / REAP</div>
+          <div class="meta">Physical REAP export and runtime execution demonstrated</div>
+          <div><span class="pill major">Major progress</span></div>
+        </div>
+        <div class="status-row">
+          <div class="title">MoE numerical correctness</div>
+          <div class="meta">Allowlist parity measured; later divergence under investigation</div>
+          <div><span class="pill partial">Partial</span></div>
+        </div>
+        <div class="status-row">
+          <div class="title">Coherent MiniMax generation</div>
+          <div class="meta">Still failing semantic quality gates</div>
+          <div><span class="pill open">Open</span></div>
+        </div>
+        <div class="status-row">
+          <div class="title">Production certification</div>
+          <div class="meta"><code>PROMOTE=0</code> · <code>CERTIFIED=0</code> — full IDE release held</div>
+          <div><span class="pill held">Held</span></div>
+        </div>
+        <div class="status-row">
+          <div class="title">Remote steering / egress</div>
+          <div class="meta">No complete certification established for phone/web remote control</div>
+          <div><span class="pill open">Open</span></div>
+        </div>
+      </div>
+      <div class="banner reveal">
+        <strong>Advanced Development Preview</strong> — Core capabilities operational, production certification in progress.
+        The old public <code>~85%</code> completion figure is retired. The remaining obstacle is reliable end-to-end IDE behavior on one exact release commit — not only isolated feature experiments.
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="section-head reveal">
+        <div class="kicker">Roadmap &amp; offerings</div>
+        <h2>What ships next, and what is only proposed</h2>
+        <p>Licensing tiers remain proposed until purchase fulfillment, licensing terms, and delivery readiness are established.</p>
+      </div>
+      <div class="split">
+        <div class="panel reveal">
+          <h3>Active engineering focus</h3>
+          <ul class="list">
+            <li><span class="mark">DONE</span> Local Deep2 / GGUF product path and streamer wiring</li>
+            <li><span class="mark">DONE</span> VulkanPrimary GPU smoke milestone</li>
+            <li><span class="mark">ACTIVE</span> Multi-token / MoE parity investigation</li>
+            <li><span class="mark">ACTIVE</span> MiniMax semantic quality gates</li>
+            <li><span class="mark">BLOCKED</span> Full IDE production certification on one release commit</li>
+            <li><span class="mark">OPEN</span> EGRESS / remote steering certification</li>
+          </ul>
+        </div>
+        <div class="panel reveal">
+          <div class="proposed">Proposed offering</div>
+          <h3>Sovereign Pro</h3>
+          <div class="price-tag">$599 perpetual</div>
+          <p style="color:var(--muted);font-size:0.92rem;margin:0 0 1rem">Proposed local IDE license for the current major version. Not a certified production purchase flow yet.</p>
+          <a class="btn btn-ghost" href="/pages/enterprise.html">Enterprise &amp; licensing</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" style="padding-top:1rem">
+      <div class="panel reveal" style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between">
+        <div>
+          <div class="kicker">Local agent surface</div>
+          <h2 style="margin:0 0 0.35rem;font-size:1.35rem">Preserve the live command shell</h2>
+          <p style="margin:0;color:var(--muted);max-width:36rem">The hosted shell at <code>/gui/ide_chatbot_standalone.html</code> stays available. Live chat still requires local IDE services on your PC.</p>
+        </div>
+        <a class="btn btn-primary" href="/gui/ide_chatbot_standalone.html">Open local-first shell</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div>
+        <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span> RawrXD</a>
+        <p style="color:var(--muted);font-size:0.9rem;margin:0.75rem 0 0;max-width:22rem">Official public home of RawrXD — local-first AI development workstation. Desktop Preview only.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="/pages/ide.html">RawrXD IDE</a>
+        <a href="/pages/deep2.html">Deep2 Engine</a>
+        <a href="/pages/benchmarks.html">Benchmarks</a>
+        <a href="/pages/downloads.html">Downloads</a>
+      </div>
+      <div>
+        <h4>Evidence</h4>
+        <a href="/pages/research.html">Research</a>
+        <a href="/pages/roadmap.html">Roadmap</a>
+        <a href="/pages/docs.html">Documentation</a>
+        <a href="https://github.com/ItsMehRAWRXD" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <div>
+        <h4>Commercial</h4>
+        <a href="/pages/enterprise.html">Enterprise</a>
+        <a href="/gui/ide_chatbot_standalone.html">Agent shell</a>
+      </div>
+    </div>
+    <div class="wrap footer-bottom">
+      <span>PROMOTE=0 · CERTIFIED=0 · TIP_CLIMB=HOLD</span>
+      <span>screenpilot.tech · rebuild/v1 staging candidate</span>
+    </div>
+  </footer>
+
+  <script src="/js/site.js"></script>
 </body>
 </html>
