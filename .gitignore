@@ -4,3 +4,8 @@ Thumbs.db
 
 # Design-reference screenshots (not product assets; do not publish)
 assets/screens/
+
+# Local preview harness
+.preview-ready
+.preview-error
+.preview-server.ps1

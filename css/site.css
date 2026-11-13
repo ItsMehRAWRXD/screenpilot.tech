@@ -524,8 +524,31 @@ section { padding: 4.25rem 0; }
   .frame-right { border-bottom: 0; }
   .split, .footer-grid { grid-template-columns: 1fr; }
   .status-row { grid-template-columns: 1fr; gap: 0.35rem; }
-  .nav-links, .nav-cta .btn-ghost { display: none; }
-  .nav-toggle { display: inline-flex; }
+  .nav { overflow-x: clip; }
+  .nav-inner {
+    min-width: 0;
+    gap: 0.5rem;
+  }
+  .brand {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .brand span { display: none; }
+  /* Header CTA moves to hero on small screens — prevents wrap/clip overflow */
+  .nav-links,
+  .nav-cta .btn-ghost,
+  .nav-cta .btn-primary { display: none; }
+  .nav-cta {
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+  .nav-toggle {
+    display: inline-flex;
+    white-space: nowrap;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.55rem 0.85rem;
+  }
   .nav.open .nav-links {
     display: flex;
     flex-direction: column;
@@ -536,9 +559,31 @@ section { padding: 4.25rem 0; }
     background: rgba(7, 7, 10, 0.96);
     border-bottom: 1px solid var(--border);
     padding: 0.75rem;
+    z-index: 50;
+  }
+  .nav.open .nav-links a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0.7rem 0.85rem;
+  }
+  .eyebrow {
+    max-width: 100%;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.35;
+    border-radius: 12px;
   }
 }
 @media (max-width: 640px) {
   .feature-grid { grid-template-columns: 1fr; }
   .hero { padding-top: 3rem; }
+  .hero-actions { width: 100%; }
+  .hero-actions .btn {
+    flex: 1 1 100%;
+    min-height: 44px;
+  }
+  .wrap {
+    width: min(var(--max), calc(100% - 1.5rem));
+  }
 }
